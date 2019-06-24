@@ -1,0 +1,13 @@
+{
+  "name": "github-release",
+  "version": "1.0.0",
+  "description": "GitHub Release mirror",
+  "main": "dist/index.js",
+  "repository": "https://github.com/Indexyz/mirror.indexyz.me",
+  "author": "Indexyz <indexyz@protonmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "../node_modules/.bin/tsc"
+  }
+}

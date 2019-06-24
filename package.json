@@ -1,0 +1,27 @@
+{
+  "name": "mirror.indexyz.me",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Indexyz/mirror.indexyz.me.git",
+  "author": "Indexyz <jiduye@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts ."
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/node": "^12.0.10",
+    "@types/node-fetch": "^2.3.7",
+    "@types/yargs": "^13.0.0",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "eslint": "^6.0.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "node-fetch": "^2.6.0",
+    "yargs": "^13.2.4"
+  }
+}
