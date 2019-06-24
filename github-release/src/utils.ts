@@ -8,22 +8,26 @@ function fileName(base: string, file: ProcessFile) {
 }
 
 
-export async function downloadFile(url, dest): Promise<void> {
+export async function downloadFile(url: string, dest: string): Promise<void> {
     console.log(`${chalk.green('[Downloading]')}: ${url}`)
     const dirname = path.dirname(dest)
 
     if (!fs.existsSync(dirname)) {
-        console.log(`[Create Dir]: ${dirname}`)
         await fs.promises.mkdir(dirname, {recursive: true})
     }
 
-    return fetch(url)
-        .then(res => {
-            const file = fs.createWriteStream(dest)
+    const res = await fetch(url)
+    const file = fs.createWriteStream(dest)
 
-            res.body.pipe(file)
+    res.body.pipe(file)
+
+    return new Promise((resolve, reject) => {
+        res.body.on('end', () => {
             console.log(`${chalk.blue('[Finished]')}: ${url}`)
+            resolve()
         })
+        file.on('error', reject)
+    })
 }
 
 type ProcessFile = {
@@ -34,7 +38,7 @@ type ProcessFile = {
     dest?: string
 }
 
-export function buildDownloadList(response: Array<any>, base: string): Array<Promise<any>> {
+export function buildDownloadList(response: Array<any>, base: string): Array<ProcessFile> {
     const result = response.reduce((pre: Array<ProcessFile>, curr) => {
         const ret = [...pre]
 
@@ -61,7 +65,6 @@ export function buildDownloadList(response: Array<any>, base: string): Array<Pro
 
             return !(stat.size === it.size)
         })
-        .map((it: ProcessFile) => downloadFile(it.url, it.dest))
 
     return result
 }

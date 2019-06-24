@@ -1,6 +1,8 @@
 import * as yargs from 'yargs'
 import fetch from 'node-fetch'
-import { buildDownloadList } from './utils'
+import { buildDownloadList, downloadFile } from './utils'
+import asyncPool from 'tiny-async-pool'
+import * as retry from 'promise-retry'
 
 const API_ROOT = 'https://api.github.com/repos'
 
@@ -34,7 +36,14 @@ async function main() {
 
     const downloads = buildDownloadList(response, argv.dir)
 
-    await Promise.all(downloads)
+    await asyncPool(10, downloads, it => retry((ret, number) => {
+        if (number > 1) {
+            console.log(`[Error]: retry=${number}, url=${it.url}`)
+        }
+
+        return downloadFile(it.url, it.dest)
+            .catch(ret)
+    }))
     console.log('All downloads done!')
 }
 
