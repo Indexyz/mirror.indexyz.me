@@ -2,7 +2,8 @@ import * as yargs from 'yargs'
 import fetch from 'node-fetch'
 import { buildDownloadList, downloadFile } from './utils'
 import asyncPool from 'tiny-async-pool'
-import * as retry from 'promise-retry'
+import retry from 'promise-retry'
+
 
 const API_ROOT = 'https://api.github.com/repos'
 
